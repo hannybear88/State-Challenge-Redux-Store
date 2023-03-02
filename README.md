@@ -95,6 +95,30 @@ You'll use the Stripe API to process payments, which includes making front-end a
 
 ![Deploy](https://www.herokucdn.com/deploy/button.svg)]()
 
+Screenshots
+
+<!-- - Below is the screenshot of the text editor "Just Another Text Editor (J.A.T.E)" deployed on Heroku
+
+![deployed to Heroku screenshot](/Assets/images/pwa_JATE_deployedonheroku_screenshot.png)
+
+- Screenshot of J.A.T.E deployed on Heroku with content
+![Text Editor deployed with content](/Assets/images/pwa_JATE_app_installed_with_content_screenshot.png)
+
+- JATE app installation prompt pops up after the user clicks install
+
+![JATE app installation prompt](/Assets/images/pwa_JATE_install_app_prompt_screenshot.png)
+
+- JATE app shows on the desktop
+
+![icon on the desktop](/Assets/images/pwa_JATE_icon_on_desktop_screenshot.png)
+
+- J.A.T.E. app is downloaded
+![JATE app intalled](/Assets/images/pwa_JATE_app_installed_screenshot.png)
+
+- J.A.T.E. app is downloaded with content 
+
+![J.A.T.E. app installed with content](/Assets/images/pwa_JATE_app_installed_with_content_screenshot.png) -->
+
   ## Technologies Used
 <!-- ![Technologies](https://img.shields.io/badge/Javascript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
 ![Technologies](https://img.shields.io/badge/-Node.js-339933?logo=Node.js&logoColor=white)
