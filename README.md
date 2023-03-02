@@ -142,11 +142,11 @@ Screenshots
   ## Credits
 
 - Starter code provided by UCSD 
-- Code by Hannah Chung
+- Code refactored by Hannah Chung
 
   ## Contributors 
 
 - Starter code provided by UCSD 
-- Code by Hannah Chung
+- Code refactored by Hannah Chung
 
 
