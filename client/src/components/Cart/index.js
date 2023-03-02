@@ -1,27 +1,51 @@
 import React, { useEffect } from 'react';
-import { loadStripe } from '@stripe/stripe-js';
-import { useLazyQuery } from '@apollo/client';
-import { QUERY_CHECKOUT } from '../../utils/queries';
+import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from '../../utils/actions';
 import { idbPromise } from '../../utils/helpers';
 import CartItem from '../CartItem';
 import Auth from '../../utils/auth';
-import { useStoreContext } from '../../utils/GlobalState';
-import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from '../../utils/actions';
 import './style.css';
+//commented out in favor of redux logic
+// import { useStoreContext } from '../../utils/GlobalState';
+import { useDispatch, useSelector } from 'react-redux';
+// stripe checkout api
+// to be used as part of the button checkout process
+import { loadStripe } from '@stripe/stripe-js';
+import { useLazyQuery } from '@apollo/client';
+import { QUERY_CHECKOUT } from '../../utils/queries';
 
+// API key in context of REACT as testing key.
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
 const Cart = () => {
-  const [state, dispatch] = useStoreContext();
+
+/*
+  You'll use the custom useStoreContext Hook to establish 
+  a state variable and the dispatch() function to update
+  the state. In this case, dispatch() will call the TOGGLE_CART
+  action. In the Cart functional component, write the following code:
+  */
+
+  // Commented out in favor of redux logic
+  //const [state, dispatch] = useStoreContext();
+  // const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
+
+  // useEffect(() => {
+  //   if (data) {
+  //     stripePromise.then((res) => {
+  //       res.redirectToCheckout({ sessionId: data.checkout.session });
+  //     });
+  //   }
+  // }, [data]);
+
+  const state = useSelector((state) => {
+    return state
+  });
+
+  const dispatch = useDispatch();
+
+  // using lazyQuery to be used as part of the checkout function
   const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
 
-  useEffect(() => {
-    if (data) {
-      stripePromise.then((res) => {
-        res.redirectToCheckout({ sessionId: data.checkout.session });
-      });
-    }
-  }, [data]);
 
   useEffect(() => {
     async function getCart() {
@@ -33,6 +57,16 @@ const Cart = () => {
       getCart();
     }
   }, [state.cart.length, dispatch]);
+
+  // use effect for checkout lazyhook
+  useEffect(() => {
+    if (data) {
+      stripePromise.then((res) => {
+        res.redirectToCheckout({ sessionId: data.checkout.session });
+      });
+    }
+  }, [data]);
+
 
   function toggleCart() {
     dispatch({ type: TOGGLE_CART });
