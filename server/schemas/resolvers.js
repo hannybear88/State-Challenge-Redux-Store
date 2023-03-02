@@ -52,32 +52,56 @@ const resolvers = {
 
       throw new AuthenticationError('Not logged in');
     },
+
+     // stripe checkout query
     checkout: async (parent, args, context) => {
+
+     // parse out referring URL
       const url = new URL(context.headers.referer).origin;
       const order = new Order({ products: args.products });
+      const { products } = await order.populate('products').execPopulate();
+
       const line_items = [];
 
-      const { products } = await order.populate('products');
-
       for (let i = 0; i < products.length; i++) {
+
+        // generate product id
         const product = await stripe.products.create({
           name: products[i].name,
           description: products[i].description,
+            /*
+          Because we have access to the referring URL, 
+          we can also provide an image thumbnail when 
+          creating the product ID.
+          This is to pass the images to the stripe products array
+          */
           images: [`${url}/images/${products[i].image}`]
         });
-
+        
+         // generate price id using the product id
         const price = await stripe.prices.create({
           product: product.id,
+
+          // multiple by 100 since price ammount is in cents
           unit_amount: products[i].price * 100,
           currency: 'usd',
         });
 
+         // add price id to the line items array
+        // why is qty 1 here?
         line_items.push({
           price: price.id,
           quantity: 1
         });
       }
 
+
+       /*
+      Line itmes array will be used to generate a Stripe
+      checkout session.
+      The checkout session ID is the only data the resolver needs,
+      so we can return it
+      */
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ['card'],
         line_items,
