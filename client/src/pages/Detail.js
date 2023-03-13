@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/client';
+
 import Cart from '../components/Cart';
-// remove as we will use redux store
-// import { useStoreContext } from '../utils/GlobalState';
-import { useDispatch, useSelector } from 'react-redux';
+import { useStoreContext } from '../utils/GlobalState';
 import {
   REMOVE_FROM_CART,
   UPDATE_CART_QUANTITY,
@@ -16,16 +15,8 @@ import { idbPromise } from '../utils/helpers';
 import spinner from '../assets/spinner.gif';
 
 function Detail() {
-    // commented out in favor of redux logic for useStoreContext
-    // const [state, dispatch] = useStoreContext();
-    // redux useStoreContent logic
-    const state = useSelector((state) => {
-      return state
-    });
-    const dispatch = useDispatch();
-  
-
-    const { id } = useParams();
+  const [state, dispatch] = useStoreContext();
+  const { id } = useParams();
 
   const [currentProduct, setCurrentProduct] = useState({});
 
@@ -78,9 +69,8 @@ function Detail() {
         product: { ...currentProduct, purchaseQuantity: 1 },
       });
       idbPromise('cart', 'put', { ...currentProduct, purchaseQuantity: 1 });
-   
     }
-  }
+  };
 
   const removeFromCart = () => {
     dispatch({
@@ -90,29 +80,20 @@ function Detail() {
 
     idbPromise('cart', 'delete', { ...currentProduct });
   };
-  
-    // check if there is anything in cart then display also.
+
   return (
     <>
       {currentProduct && cart ? (
         <div className="container my-1">
-          <Link to="/">
-            ← Back to Products
-          </Link>
+          <Link to="/">← Back to Products</Link>
 
           <h2>{currentProduct.name}</h2>
 
-          <p>
-            {currentProduct.description}
-          </p>
+          <p>{currentProduct.description}</p>
 
           <p>
-            <strong>Price:</strong>
-            ${currentProduct.price}
-            {' '}
-            <button onClick={addToCart}>
-              Add to Cart
-            </button>
+            <strong>Price:</strong>${currentProduct.price}{' '}
+            <button onClick={addToCart}>Add to Cart</button>
             <button
               disabled={!cart.find((p) => p._id === currentProduct._id)}
               onClick={removeFromCart}
@@ -127,9 +108,7 @@ function Detail() {
           />
         </div>
       ) : null}
-      {
-        loading ? <img src={spinner} alt="loading" /> : null
-      }
+      {loading ? <img src={spinner} alt="loading" /> : null}
       <Cart />
     </>
   );

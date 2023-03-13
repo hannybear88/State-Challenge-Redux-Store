@@ -1,37 +1,18 @@
 import React, { useEffect } from 'react';
-// commented out in favor of redux logic
-// import { useStoreContext } from '../../utils/GlobalState';
-import { useDispatch, useSelector } from 'react-redux';
+import ProductItem from '../ProductItem';
+import { useStoreContext } from '../../utils/GlobalState';
 import { UPDATE_PRODUCTS } from '../../utils/actions';
 import { useQuery } from '@apollo/client';
-
-import ProductItem from '../ProductItem';
 import { QUERY_PRODUCTS } from '../../utils/queries';
+import { idbPromise } from '../../utils/helpers';
 import spinner from '../../assets/spinner.gif';
 
-//import IndexDB helper which will allow the app to talk
-// to the database
-import { idbPromise } from '../../utils/helpers';
-
-// currentCategory props is no longer used as is part of the 
-//function ProductList({ currentCategory }) {
-// global state
-
-function ProductList({}) {
-
-  // commented out in favor of redux logic
-  //const [state, dispatch] = useStoreContext();
-  const state = useSelector((state) => {
-    return state
-  });
-  const dispatch = useDispatch();
+function ProductList() {
+  const [state, dispatch] = useStoreContext();
 
   const { currentCategory } = state;
 
   const { loading, data } = useQuery(QUERY_PRODUCTS);
-
-  //const products = data?.products || [];
-
 
   useEffect(() => {
     if (data) {
@@ -39,16 +20,11 @@ function ProductList({}) {
         type: UPDATE_PRODUCTS,
         products: data.products,
       });
-
-  // but let's also take each product and save it to IndexedDB using the helper function 
       data.products.forEach((product) => {
         idbPromise('products', 'put', product);
       });
     } else if (!loading) {
       idbPromise('products', 'get').then((products) => {
-
-        // use retrieved data to set global state for offline browsing
-        console.log("I am offline")
         dispatch({
           type: UPDATE_PRODUCTS,
           products: products,

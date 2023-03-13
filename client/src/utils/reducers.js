@@ -1,79 +1,41 @@
-// commented out in favor of redux logic
-//import { useReducer } from 'react';
-
-// actions to take
+import { useReducer } from 'react';
 import {
   UPDATE_PRODUCTS,
-  UPDATE_CATEGORIES,
-  UPDATE_CART_QUANTITY,
   ADD_TO_CART,
-  ADD_MULTIPLE_TO_CART,
+  UPDATE_CART_QUANTITY,
   REMOVE_FROM_CART,
+  ADD_MULTIPLE_TO_CART,
+  UPDATE_CATEGORIES,
   UPDATE_CURRENT_CATEGORY,
   CLEAR_CART,
   TOGGLE_CART,
 } from './actions';
 
-const defaultState = {
-  products: [],
-  cart: [],
-  cartOpen: false,
-  categories: [],
-  currentCategory: '',
-}
-
-// root reducer 
-export const reducer = (state=defaultState, action) => {
+// TODO: To get a better understand of how a reducer works - add comments to the various actions in the reducer
+export const reducer = (state, action) => {
   switch (action.type) {
-
-// if action type value is the value of `UPDATE_PRODUCTS`, return a new state object with an updated products array
+    // TODO: Add a comment describing the functionality of the UPDATE_PRODUCTS case
+    // Your comment here
     case UPDATE_PRODUCTS:
       return {
         ...state,
         products: [...action.products],
       };
 
-// if action type value is the value of `UPDATE_CATEGORIES`, return a new state object with an updated categories array
-      case UPDATE_CATEGORIES:
-      return {
-        ...state,
-        categories: [...action.categories],
-      };
-
-// if action type value is the value of `UPDATE_CURRENT_CATEGORY`, return a new string instead of an array
-      case UPDATE_CURRENT_CATEGORY:
-      return {
-        ...state,
-        currentCategory: action.currentCategory,
-      };
-// if the action type is ADD_TO_CART, return a new state object with the updated cart object
     case ADD_TO_CART:
       return {
         ...state,
         cartOpen: true,
         cart: [...state.cart, action.product],
       };
- // if the action type is ADD_MULTIPLE_TO_CART, return a new state object with the updated cart object
+
     case ADD_MULTIPLE_TO_CART:
       return {
         ...state,
         cart: [...state.cart, ...action.products],
       };
-    
-    // if the action type is REMOVE_FROM_CART, return a new state object with the updated cart and close the cart if last item is removed
-    case REMOVE_FROM_CART:
-      let newState = state.cart.filter((product) => {
-        return product._id !== action._id;
-      });
-
-      return {
-        ...state,
-        cartOpen: newState.length > 0,
-        cart: newState,
-      };
-
-    // if the action type is UPDATE_CART_QUANTITY, return a new state object with the updated cart, updating only the quantity of the specified
-    // product ID and returning product for unchanged products
+    // TODO: Add a comment describing the functionality of the UPDATE_CART_QUANTITY case
+    // Your comment here
     case UPDATE_CART_QUANTITY:
       return {
         ...state,
@@ -85,33 +47,52 @@ export const reducer = (state=defaultState, action) => {
           return product;
         }),
       };
-    
-      // if the action type is CLEAR_CART, return a new state object with the cart emptied and closed
+
+    // TODO: Add a comment describing the functionality of the REMOVE_FROM_CART case
+    // Your comment here
+    case REMOVE_FROM_CART:
+      let newState = state.cart.filter((product) => {
+        return product._id !== action._id;
+      });
+
+      return {
+        ...state,
+        cartOpen: newState.length > 0,
+        cart: newState,
+      };
+
     case CLEAR_CART:
       return {
         ...state,
         cartOpen: false,
         cart: [],
       };
-      // if the action type is TOGGLE_CART, return a new state object with the cartOpen property toggled
+
     case TOGGLE_CART:
-        return {
+      return {
         ...state,
         cartOpen: !state.cartOpen,
       };
 
-    
-    
+    case UPDATE_CATEGORIES:
+      return {
+        ...state,
+        categories: [...action.categories],
+      };
 
-     // if it's none of these actions, do not update the state and just return the current state
+    case UPDATE_CURRENT_CATEGORY:
+      return {
+        ...state,
+        currentCategory: action.currentCategory,
+      };
+
+    // TODO: Add a comment describing what the default case is for
+    // Your comment here
     default:
       return state;
   }
 };
 
-export default reducer;
-
-// commented out in favor of redux logic
-// export function useProductReducer(initialState) {
-//   return useReducer(reducer, initialState);
-// }
+export function useProductReducer(initialState) {
+  return useReducer(reducer, initialState);
+}

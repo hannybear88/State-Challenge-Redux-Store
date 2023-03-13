@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useMutation } from '@apollo/react-hooks';
+import { useMutation } from '@apollo/client';
 import { Link } from 'react-router-dom';
 import { LOGIN } from '../utils/mutations';
 import Auth from '../utils/auth';
@@ -38,7 +38,7 @@ function Login(props) {
         <div className="flex-row space-between my-2">
           <label htmlFor="email">Email address:</label>
           <input
-            placeholder="youremailhere@test.com"
+            placeholder="youremail@test.com"
             name="email"
             type="email"
             id="email"
@@ -55,11 +55,11 @@ function Login(props) {
             onChange={handleChange}
           />
         </div>
-        {error ? 
+        {error ? (
           <div>
             <p className="error-text">The provided credentials are incorrect</p>
           </div>
-         : null}
+        ) : null}
         <div className="flex-row flex-end">
           <button type="submit">Submit</button>
         </div>
