@@ -36,7 +36,9 @@ const state = useSelector((state) => {
     //const products = data?.products || [];
 
   useEffect(() => {
+    // when there is data to be stored
     if (data) {
+            // store in the global state object
       dispatch({
         type: UPDATE_PRODUCTS,
         products: data.products,
@@ -47,9 +49,11 @@ const state = useSelector((state) => {
         idbPromise('products', 'put', product);
       });
     } else if (!loading) {
+      
+            // if loading is undefined, the user is offline - get data from the `products` store in IndexedDB
       idbPromise('products', 'get').then((products) => {
-           // use retrieved data to set global state for offline browsing
            console.log("I am offline")
+           // use retrieved data to set global state for offline browsing
         dispatch({
           type: UPDATE_PRODUCTS,
           products: products,
