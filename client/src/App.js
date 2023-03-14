@@ -13,6 +13,7 @@ import Detail from './pages/Detail';
 import NoMatch from './pages/NoMatch';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
+// import Profile from './pages/Profile';
 import Nav from './components/Nav';
 import { StoreProvider } from './utils/GlobalState';
 import Success from './pages/Success';
@@ -61,7 +62,11 @@ function App() {
                 path="/success" 
                 element={<Success />} 
               />
-              <Route 
+              {/* <Route 
+                path="/profile" 
+                element={<Profile />} 
+              />
+              <Route  */}
                 path="/orderHistory" 
                 element={<OrderHistory />} 
               />

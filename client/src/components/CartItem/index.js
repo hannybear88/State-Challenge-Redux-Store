@@ -27,6 +27,7 @@ const CartItem = ({ item }) => {
       type: REMOVE_FROM_CART,
       _id: item._id
     });
+     // also update IndexedDB
     idbPromise('cart', 'delete', { ...item });
 
   };
@@ -46,7 +47,7 @@ const CartItem = ({ item }) => {
         _id: item._id,
         purchaseQuantity: parseInt(value)
       });
-      
+
       idbPromise('cart', 'put', { ...item, purchaseQuantity: parseInt(value) });
 
     }
