@@ -37,55 +37,28 @@ const client = new ApolloClient({
   uri: '/graphql',
 })
 
-
-
 // Custom React Hook called added as StoreProvider container
 function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
         <div>
-          {/* <StoreProvider> */}
+          {/*<StoreProvider>*/}
           <Provider store={store}>
             <Nav />
-            <Routes>
-            {/* <Switch> */}
-              <Route 
-                path="/" 
-                element={<Home />} 
-              />
-              <Route 
-                path="/login" 
-                element={<Login />} 
-              />
-              <Route 
-                path="/signup" 
-                element={<Signup />} 
-              />
-              <Route 
-                path="/success" 
-                element={<Success />} 
-              />
-              {/* <Route 
-                path="/profile" 
-                element={<Profile />} 
-              /> */}
-              <Route 
-                path="/orderHistory" 
-                element={<OrderHistory />} 
-              />
-              <Route 
-                path="/products/:id" 
-                element={<Detail />} 
-              />
-              <Route 
-                path="*" 
-                element={<NoMatch />} 
-              />
-            </Routes>
-            {/* {/Switch} */}
-            </Provider>
-          {/* </StoreProvider> */}
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/signup" component={Signup} />
+              <Route exact path="/orderHistory" component={OrderHistory} />
+              <Route exact path="/products/:id" component={Detail} />
+              <Route exact path="/success" component={Success} />
+              {/* <Route exact path="/profile" component={Profile} /> */}
+              <Route component={NoMatch} />
+              
+            </Switch>
+          </Provider>
+          {/*</StoreProvider>*/}
         </div>
       </Router>
     </ApolloProvider>
@@ -93,6 +66,7 @@ function App() {
 }
 
 export default App;
+
 
 
 
