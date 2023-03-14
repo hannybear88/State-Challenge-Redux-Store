@@ -65,8 +65,8 @@ function App() {
               {/* <Route 
                 path="/profile" 
                 element={<Profile />} 
-              />
-              <Route  */}
+              /> */}
+              <Route 
                 path="/orderHistory" 
                 element={<OrderHistory />} 
               />
