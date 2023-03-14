@@ -30,20 +30,27 @@ function CategoryMenu({}) {
   // loading will be used for offline capabilities
   const { loading, data: categoryData } = useQuery(QUERY_CATEGORIES);
 
+  // Update the state with the categories upon page load or change
   useEffect(() => {
+    
     // loading will be used for offline capabilities
+        // if categoryData exists or has changed from the response of useQuery, then run dispatch to update the state with the UPDATE_CATEGORIES action
     if (categoryData) {
+
       // execute our dispatch function with our action object indicating the type of action and the data to set our state for categories to
       dispatch({
         type: UPDATE_CATEGORIES,
         categories: categoryData.categories,
       });
-         // also add to indexDB
+
+         // also store the category data in IndexedDB
       categoryData.categories.forEach((category) => {
         idbPromise('categories', 'put', category);
       });
     } else if (!loading) {
       console.log("I am offline")
+      
+            // if the user is offline, load data from IndexedDB
       idbPromise('categories', 'get').then((categories) => {
         dispatch({
           type: UPDATE_CATEGORIES,
