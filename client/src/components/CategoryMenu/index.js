@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // to the database
 import { idbPromise } from '../../utils/helpers';
 
-function CategoryMenu({}) {
+function CategoryMenu() {
   // Before migrating to use global Store
   //const { data: categoryData } = useQuery(QUERY_CATEGORIES);
   //const categories = categoryData?.categories || [];
@@ -32,11 +32,10 @@ function CategoryMenu({}) {
 
   // Update the state with the categories upon page load or change
   useEffect(() => {
-    
     // loading will be used for offline capabilities
         // if categoryData exists or has changed from the response of useQuery, then run dispatch to update the state with the UPDATE_CATEGORIES action
     if (categoryData) {
-
+      console.log(categoryData)
       // execute our dispatch function with our action object indicating the type of action and the data to set our state for categories to
       dispatch({
         type: UPDATE_CATEGORIES,
